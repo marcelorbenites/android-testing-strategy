@@ -1,0 +1,73 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+}
+
+android {
+    buildToolsVersion androidBuildToolsVersion
+    compileSdkVersion compileAndroidSDkVersion
+
+    defaultConfig {
+        applicationId "com.droidcon.androi" +
+                ""
+        minSdkVersion minimumAndroidSDkVersion
+        targetSdkVersion targetAndroidSDkVersion
+        versionCode versionCodeApp
+        versionName versionNameApp
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    sourceSets {
+        test.java.srcDirs += 'src/fakes/java'
+        androidTest.java.srcDirs += 'src/fakes/java'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "androidx.appcompat:appcompat:${jetpackAppCompatVersion}"
+    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
+    implementation "androidx.browser:browser:${androidJetpackVersion}"
+    implementation "androidx.recyclerview:recyclerview:${androidJetpackVersion}"
+    implementation "com.google.android.material:material:${androidJetpackVersion}"
+    implementation "androidx.legacy:legacy-support-v4:${androidJetpackVersion}"
+    implementation "androidx.vectordrawable:vectordrawable-animated:${androidJetpackVersion}"
+    implementation "androidx.media:media:${androidJetpackMediaVersion}"
+    implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rxJavaAndroidVersion}"
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
+    testImplementation "androidx.test:core:${androidTestCoreVersion}"
+    testImplementation "androidx.test:runner:${supportTestRunnerVersion}"
+    testImplementation "androidx.test.ext:junit:${androidJUnitVersion}"
+    testImplementation "androidx.test:rules:${supportTestRulesVersion}"
+    testImplementation "androidx.test.espresso:espresso-core:${espressoVersion}"
+    testImplementation "androidx.test.espresso:espresso-contrib:${espressoVersion}"
+    testImplementation "org.robolectric:robolectric:${robolectricVersion}"
+    testImplementation "io.mockk:mockk:${mockkVersion}"
+    testImplementation "net.bytebuddy:byte-buddy-agent:${byteBuddyAgentVersion}"
+
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
+    androidTestImplementation "androidx.test:runner:${supportTestRunnerVersion}"
+    androidTestImplementation "androidx.test:rules:${supportTestRulesVersion}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${espressoVersion}"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:${espressoVersion}"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:${espressoVersion}"
+    androidTestImplementation "androidx.test.ext:junit:${androidJUnitVersion}"
+    androidTestImplementation "androidx.test:core:${androidTestCoreVersion}"
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:${uiAutomatorVersion}"
+    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
+}
