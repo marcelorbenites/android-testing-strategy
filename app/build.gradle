@@ -10,8 +10,7 @@ android {
     compileSdkVersion compileAndroidSDkVersion
 
     defaultConfig {
-        applicationId "com.droidcon.androi" +
-                ""
+        applicationId "com.droidcon.android"
         minSdkVersion minimumAndroidSDkVersion
         targetSdkVersion targetAndroidSDkVersion
         versionCode versionCodeApp

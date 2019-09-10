@@ -5,7 +5,7 @@ import com.droidcon.gateway.GatewayError
 import com.droidcon.state.Dispatcher
 import com.droidcon.state.StateMachine
 
-interface DependencyManager {
-    val conferenceStateMachine: StateMachine<Conference, GatewayError>
-    val mainDispatcher: Dispatcher
-}
+class FakeDependencyManager(
+    override val conferenceStateMachine: StateMachine<Conference, GatewayError>,
+    override val mainDispatcher: Dispatcher
+) : DependencyManager

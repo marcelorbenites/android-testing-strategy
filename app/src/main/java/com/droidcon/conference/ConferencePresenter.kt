@@ -2,41 +2,37 @@ package com.droidcon.conference
 
 import com.droidcon.gateway.GatewayError
 import com.droidcon.state.Dispatcher
-import com.droidcon.state.Presenter
 import com.droidcon.state.State
 
 class ConferencePresenter(
-    mainDispatcher: Dispatcher,
-    viewModel: ConferenceViewModel
-) : Presenter<ConferenceViewModel, Conference, GatewayError>(viewModel, mainDispatcher) {
+    private val mainDispatcher: Dispatcher,
+    private val view: ConferenceView
+) : (State<Conference, GatewayError>) -> Unit {
 
-    override fun onStateUpdated(
-        state: State<Conference, GatewayError>,
-        viewModel: ConferenceViewModel
-    ) {
-        when (state.name) {
-            State.Name.IDLE -> {
-                viewModel.loading = false
-                viewModel.networkError = false
-                viewModel.unknownError = false
-            }
-            State.Name.LOADING -> {
-                viewModel.loading = true
-                viewModel.networkError = false
-                viewModel.unknownError = false
-            }
-            State.Name.LOADED -> {
-                val conference = state.value!!
-                viewModel.loading = false
-                viewModel.networkError = false
-                viewModel.unknownError = false
-                viewModel.name = conference.name
-            }
-            State.Name.ERROR -> {
-                val error = state.error!!
-                viewModel.loading = false
-                viewModel.networkError = error.network
-                viewModel.unknownError = !error.network
+    override fun invoke(state: State<Conference, GatewayError>) {
+        mainDispatcher.dispatch {
+            when (state.name) {
+                State.Name.IDLE -> {
+                    view.hideLoading()
+                    view.hideError()
+                    view.hideConferenceName()
+                }
+                State.Name.LOADING -> {
+                    view.showLoading()
+                    view.hideError()
+                    view.hideConferenceName()
+                }
+                State.Name.LOADED -> {
+                    val conference = state.value!!
+                    view.hideLoading()
+                    view.hideError()
+                    view.showConferenceName(conference.name)
+                }
+                State.Name.ERROR -> {
+                    view.showError()
+                    view.hideConferenceName()
+                    view.hideLoading()
+                }
             }
         }
     }

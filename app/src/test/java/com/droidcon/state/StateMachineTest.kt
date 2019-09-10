@@ -1,6 +1,5 @@
 package com.droidcon.state
 
-import com.droidcon.dispatcher.FakeDispatcher
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
@@ -10,8 +9,7 @@ class StateMachineTest {
     @Test
     fun `Given an idle state When move is called Then current state should return loading with no value And no error`() {
         val stateMachine = object : StateMachine<TestValue, TestError>(
-            TestErrorFactory(),
-            FakeDispatcher()
+            TestErrorFactory()
         ) {
             override fun start() {
             }
@@ -19,9 +17,7 @@ class StateMachineTest {
         val listenerMock = mockk<(State<TestValue, TestError>) -> Unit>(relaxed = true)
         stateMachine.addStateChangedListener(listenerMock)
 
-        stateMachine.move {
-            TestValue()
-        }
+        stateMachine.moveToLoading()
 
         verify {
             listenerMock.invoke(State(State.Name.LOADING, null, null))
@@ -31,8 +27,7 @@ class StateMachineTest {
     @Test
     fun `Given an idle state When move is called with value Then return loaded with value And no error`() {
         val stateMachine = object : StateMachine<TestValue, TestError>(
-            TestErrorFactory(),
-            FakeDispatcher()
+            TestErrorFactory()
         ) {
             override fun start() {
             }
@@ -41,9 +36,7 @@ class StateMachineTest {
         val listenerMock = mockk<(State<TestValue, TestError>) -> Unit>(relaxed = true)
         stateMachine.addStateChangedListener(listenerMock)
 
-        stateMachine.move {
-            value
-        }
+        stateMachine.moveToLoaded(value)
 
         verify {
             listenerMock.invoke(State(State.Name.LOADED, value, null))
@@ -55,8 +48,7 @@ class StateMachineTest {
         val error = TestError()
         val stateMachine = object :
             StateMachine<TestValue, TestError>(
-                TestErrorFactory(error),
-                FakeDispatcher()
+                TestErrorFactory(error)
             ) {
             override fun start() {
             }
@@ -64,9 +56,7 @@ class StateMachineTest {
         val listenerMock = mockk<(State<TestValue, TestError>) -> Unit>(relaxed = true)
         stateMachine.addStateChangedListener(listenerMock)
 
-        stateMachine.move {
-            throw IllegalStateException()
-        }
+        stateMachine.moveToError(IllegalStateException())
 
         verify {
             listenerMock.invoke(State(State.Name.ERROR, error = error))
@@ -76,8 +66,7 @@ class StateMachineTest {
     @Test
     fun `Given an idle state When two different listeners are registered and state is moved to loading Then should call both listeners`() {
         val stateMachine = object : StateMachine<TestValue, TestError>(
-            TestErrorFactory(),
-            FakeDispatcher()
+            TestErrorFactory()
         ) {
             override fun start() {
             }
@@ -87,9 +76,7 @@ class StateMachineTest {
         val secondListenerMock = mockk<(State<TestValue, TestError>) -> Unit>(relaxed = true)
         stateMachine.addStateChangedListener(listenerMock)
         stateMachine.addStateChangedListener(secondListenerMock)
-        stateMachine.move {
-            TestValue()
-        }
+        stateMachine.moveToLoading()
 
         verify {
             listenerMock.invoke(State(State.Name.LOADING))
@@ -103,8 +90,7 @@ class StateMachineTest {
     @Test
     fun `Given an idle state When listener registered Then should return idle status`() {
         val stateMachine = object : StateMachine<TestValue, TestError>(
-            TestErrorFactory(),
-            FakeDispatcher()
+            TestErrorFactory()
         ) {
             override fun start() {
             }
@@ -121,8 +107,7 @@ class StateMachineTest {
     @Test
     fun `Given an idle state and a registered listener When second listener registration Then should notify the second listener And should not notify the first listener a second time`() {
         val stateMachine = object : StateMachine<TestValue, TestError>(
-            TestErrorFactory(),
-            FakeDispatcher()
+            TestErrorFactory()
         ) {
             override fun start() {
             }

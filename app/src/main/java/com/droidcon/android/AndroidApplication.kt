@@ -6,6 +6,7 @@ import com.droidcon.DroidconApplication
 import com.droidcon.conference.OkHttpConferenceGateway
 import com.droidcon.rxjava.RxJavaDispatcherFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
+import okhttp3.OkHttpClient
 
 class AndroidApplication : Application() {
 
@@ -15,7 +16,12 @@ class AndroidApplication : Application() {
         super.onCreate()
         dependencyManager = DroidconApplication.Builder()
             .registerDispatcherFactory(lazy { RxJavaDispatcherFactory(AndroidSchedulers.mainThread()) })
-            .registerConferenceGateway(lazy { OkHttpConferenceGateway() })
+            .registerConferenceGateway(lazy {
+                OkHttpConferenceGateway(
+                    "",
+                    OkHttpClient()
+                )
+            })
             .start()
     }
 }

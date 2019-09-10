@@ -1,6 +1,10 @@
 package com.droidcon.state
 
-data class State<T, E>(val name: Name, val value: T? = null, val error: E? = null) {
+data class State<T, E>(
+    val name: Name,
+    val value: T? = null,
+    val error: E? = null
+) {
     enum class Name {
         IDLE,
         LOADING,
