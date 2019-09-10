@@ -18,7 +18,7 @@ class AndroidApplication : Application() {
             .registerDispatcherFactory(lazy { RxJavaDispatcherFactory(AndroidSchedulers.mainThread()) })
             .registerConferenceGateway(lazy {
                 OkHttpConferenceGateway(
-                    "",
+                    "https://my-json-server.typicode.com/marcelorbenites/android-testing-strategy/",
                     OkHttpClient()
                 )
             })

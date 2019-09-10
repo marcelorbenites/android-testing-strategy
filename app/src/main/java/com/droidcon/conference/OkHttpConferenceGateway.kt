@@ -11,7 +11,7 @@ class OkHttpConferenceGateway(
 ) : ConferenceGateway {
     override fun getConference(): Conference {
         val request = Request.Builder()
-            .url("${baseUrl}conference")
+            .url("${baseUrl}conferences/1")
             .get()
             .build()
 

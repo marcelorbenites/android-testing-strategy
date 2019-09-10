@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 class OkHttpConferenceGatewayIntegrationTest {
 
     @Test
-    fun `When conference is requested Then call conference endpoint with GET method`() {
+    fun `When conference is requested Then call db endpoint with GET method`() {
         val server = MockWebServer()
         server.start()
         val baseUrl = server.url("/").toString()
@@ -38,7 +38,7 @@ class OkHttpConferenceGatewayIntegrationTest {
         val request = server.takeRequest()
 
         assertEquals("GET", request.method)
-        assertEquals("/conference", request.path)
+        assertEquals("/conferences/1", request.path)
 
         server.shutdown()
     }
