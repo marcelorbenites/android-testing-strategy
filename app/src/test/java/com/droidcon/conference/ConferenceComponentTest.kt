@@ -6,10 +6,10 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import com.droidcon.FakeDependencyManager
+import com.droidcon.DroidconApplication
+import com.droidcon.FakeDispatcherFactory
 import com.droidcon.TestActivity
 import com.droidcon.TestApplication
-import com.droidcon.dispatcher.FakeDispatcher
 import com.droidcon.testing.R
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
@@ -41,14 +41,10 @@ class ConferenceComponentTest {
 
         server.enqueue(MockResponse().setResponseCode(200).setBody(json))
 
-        val stateMachine = ConferenceStateMachine(
-            OkHttpConferenceGateway(baseUrl, OkHttpClient()),
-            FakeDispatcher(),
-            FakeGatewayErrorFactory()
-        )
-        stateMachine.start()
-
-        rule.activity.testDependencyManager = FakeDependencyManager(stateMachine, FakeDispatcher())
+        rule.activity.testDependencyManager = DroidconApplication.Builder()
+            .registerConferenceGateway(lazy { OkHttpConferenceGateway(baseUrl, OkHttpClient()) })
+            .registerDispatcherFactory(lazy { FakeDispatcherFactory() })
+            .start()
 
         rule.activity.showFragment(ConferenceFragment())
 
