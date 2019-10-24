@@ -23,10 +23,10 @@ class OkHttpConferenceGatewayIntegrationTest {
         )
 
         val json = """
-            {
+            [{
               "id": "1",
               "name": "Droidcon"
-            }
+            }]
         """.trimIndent()
 
         server.enqueue(MockResponse().setResponseCode(200).setBody(json))
@@ -38,7 +38,7 @@ class OkHttpConferenceGatewayIntegrationTest {
         val request = server.takeRequest()
 
         assertEquals("GET", request.method)
-        assertEquals("/conferences/1", request.path)
+        assertEquals("/conferences", request.path)
 
         server.shutdown()
     }

@@ -25,4 +25,10 @@ class MainActivity: AppCompatActivity(), ViewContainer {
                 .commit()
         }
     }
+
+    class MyThread: Runnable {
+        override fun run() {
+
+        }
+    }
 }

@@ -6,34 +6,36 @@ import com.droidcon.state.State
 
 class ConferencePresenter(
     private val mainDispatcher: Dispatcher,
-    private val view: ConferenceView
+    private val viewModel: ConferenceViewModel
 ) : (State<Conference, GatewayError>) -> Unit {
 
     override fun invoke(state: State<Conference, GatewayError>) {
         mainDispatcher.dispatch {
             when (state.name) {
                 State.Name.IDLE -> {
-                    view.hideLoading()
-                    view.hideError()
-                    view.hideConferenceName()
+                    viewModel.showLoading = false
+                    viewModel.showError = false
+                    viewModel.hideName = true
                 }
                 State.Name.LOADING -> {
-                    view.showLoading()
-                    view.hideError()
-                    view.hideConferenceName()
+                    viewModel.showLoading = true
+                    viewModel.showError = false
+                    viewModel.hideName = true
                 }
                 State.Name.LOADED -> {
                     val conference = state.value!!
-                    view.hideLoading()
-                    view.hideError()
-                    view.showConferenceName(conference.name)
+                    viewModel.showLoading = false
+                    viewModel.showError = false
+                    viewModel.hideName = false
+                    viewModel.name = conference.name
                 }
                 State.Name.ERROR -> {
-                    view.showError()
-                    view.hideConferenceName()
-                    view.hideLoading()
+                    viewModel.showLoading = false
+                    viewModel.showError = true
+                    viewModel.hideName = true
                 }
             }
+            viewModel.notifyObserver()
         }
     }
 }

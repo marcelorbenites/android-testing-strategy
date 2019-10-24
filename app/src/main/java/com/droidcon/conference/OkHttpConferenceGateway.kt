@@ -2,6 +2,7 @@ package com.droidcon.conference
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
@@ -11,7 +12,7 @@ class OkHttpConferenceGateway(
 ) : ConferenceGateway {
     override fun getConference(): Conference {
         val request = Request.Builder()
-            .url("${baseUrl}conferences/1")
+            .url("${baseUrl}conferences")
             .get()
             .build()
 
@@ -25,7 +26,7 @@ class OkHttpConferenceGateway(
     }
 
     private fun parseConference(json: String): Conference {
-        val conferenceJson = JSONObject(json)
+        val conferenceJson = JSONArray(json).getJSONObject(0)
         return Conference(conferenceJson.getString("id"), conferenceJson.getString("name"))
     }
 }

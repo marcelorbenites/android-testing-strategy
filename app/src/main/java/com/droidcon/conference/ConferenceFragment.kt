@@ -11,20 +11,12 @@ import com.droidcon.android.ViewContainer
 import com.droidcon.testing.R
 import kotlinx.android.synthetic.main.fragment_conference.*
 
-class ConferenceFragment : Fragment(), ConferenceView {
+class ConferenceFragment : Fragment() {
 
     private var dependencyManager: DependencyManager? = null
 
-    private val conferenceStateMachine by lazy {
-        dependencyManager!!.conferenceStateMachine
-    }
-
-    private val mainDispatcher by lazy {
-        dependencyManager!!.mainDispatcher
-    }
-
-    private val conferencePresenter by lazy {
-        ConferencePresenter(mainDispatcher, this)
+    private val conferenceViewModel by lazy {
+        dependencyManager!!.conferenceViewModel
     }
 
     override fun onAttach(context: Context) {
@@ -42,11 +34,17 @@ class ConferenceFragment : Fragment(), ConferenceView {
 
     override fun onResume() {
         super.onResume()
-        conferenceStateMachine.addStateChangedListener(conferencePresenter)
+        conferenceViewModel.setObserver {
+            if (conferenceViewModel.hideName) {
+                hideConferenceName()
+            } else {
+                showConferenceName(conferenceViewModel.name)
+            }
+        }
     }
 
     override fun onPause() {
-        conferenceStateMachine.removeStateChangedListener(conferencePresenter)
+        conferenceViewModel.removeObserver()
         super.onPause()
     }
 
@@ -55,24 +53,12 @@ class ConferenceFragment : Fragment(), ConferenceView {
         super.onDetach()
     }
 
-    override fun hideLoading() {
-    }
-
-    override fun showLoading() {
-    }
-
-    override fun hideError() {
-    }
-
-    override fun showError() {
-    }
-
-    override fun showConferenceName(name: String) {
+    private fun showConferenceName(name: String) {
         conferenceName.text = name
         conferenceName.visibility = View.VISIBLE
     }
 
-    override fun hideConferenceName() {
+    private fun hideConferenceName() {
         conferenceName.visibility = View.GONE
     }
 }

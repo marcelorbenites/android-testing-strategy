@@ -1,9 +1,9 @@
-buildscript {
+    buildscript {
     ext {
         versionCodeApp = 1
         versionNameApp = '0.0.1'
         kotlinVersion = '1.3.50'
-        androidPluginVersion = '3.5.0'
+        androidPluginVersion = '3.5.1'
         compileAndroidSDkVersion = 28
         targetAndroidSDkVersion = 28
         minimumAndroidSDkVersion = 23

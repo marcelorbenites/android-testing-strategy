@@ -51,6 +51,7 @@ dependencies {
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     testImplementation "androidx.test:core:${androidTestCoreVersion}"
     testImplementation "androidx.test:runner:${supportTestRunnerVersion}"
+    testImplementation "androidx.appcompat:appcompat:${jetpackAppCompatVersion}"
     testImplementation "androidx.test.ext:junit:${androidJUnitVersion}"
     testImplementation "androidx.test:rules:${supportTestRulesVersion}"
     testImplementation "androidx.test.espresso:espresso-core:${espressoVersion}"

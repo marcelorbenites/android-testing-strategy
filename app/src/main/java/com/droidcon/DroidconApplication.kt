@@ -1,8 +1,6 @@
 package com.droidcon
 
-import com.droidcon.conference.Conference
-import com.droidcon.conference.ConferenceGateway
-import com.droidcon.conference.ConferenceStateMachine
+import com.droidcon.conference.*
 import com.droidcon.gateway.GatewayError
 import com.droidcon.gateway.GatewayErrorFactory
 import com.droidcon.state.Dispatcher
@@ -13,7 +11,13 @@ class DroidconApplication private constructor(
     lazyConferenceGateway: Lazy<ConferenceGateway>
 ) : DependencyManager {
 
-    override val conferenceStateMachine: StateMachine<Conference, GatewayError> by lazy {
+    override val conferenceViewModel: ConferenceViewModel by lazy {
+        val conferenceViewModel = ConferenceViewModel()
+        conferenceStateMachine.addStateChangedListener(ConferencePresenter(mainDispatcher, conferenceViewModel))
+        conferenceViewModel
+    }
+
+    private val conferenceStateMachine: StateMachine<Conference, GatewayError> by lazy {
         val machine = ConferenceStateMachine(
             lazyConferenceGateway.value,
             lazyDispatcherFactory.value.createSerialDispatcher("Conference"),
@@ -22,7 +26,7 @@ class DroidconApplication private constructor(
         machine
     }
 
-    override val mainDispatcher: Dispatcher by lazy {
+    private val mainDispatcher: Dispatcher by lazy {
         lazyDispatcherFactory.value.createMainDispatcher()
     }
 
