@@ -19,11 +19,6 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    sourceSets {
-        test.java.srcDirs += 'src/fakes/java'
-        androidTest.java.srcDirs += 'src/fakes/java'
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -38,12 +33,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:${jetpackAppCompatVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
-    implementation "androidx.browser:browser:${androidJetpackVersion}"
     implementation "androidx.recyclerview:recyclerview:${androidJetpackVersion}"
     implementation "com.google.android.material:material:${androidJetpackVersion}"
     implementation "androidx.legacy:legacy-support-v4:${androidJetpackVersion}"
     implementation "androidx.vectordrawable:vectordrawable-animated:${androidJetpackVersion}"
-    implementation "androidx.media:media:${androidJetpackMediaVersion}"
     implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     implementation "io.reactivex.rxjava2:rxandroid:${rxJavaAndroidVersion}"
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
@@ -60,7 +53,6 @@ dependencies {
     testImplementation "io.mockk:mockk:${mockkVersion}"
     testImplementation "net.bytebuddy:byte-buddy-agent:${byteBuddyAgentVersion}"
 
-    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     androidTestImplementation "androidx.test:runner:${supportTestRunnerVersion}"
     androidTestImplementation "androidx.test:rules:${supportTestRulesVersion}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${espressoVersion}"
@@ -68,6 +60,4 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:${espressoVersion}"
     androidTestImplementation "androidx.test.ext:junit:${androidJUnitVersion}"
     androidTestImplementation "androidx.test:core:${androidTestCoreVersion}"
-    androidTestImplementation "androidx.test.uiautomator:uiautomator:${uiAutomatorVersion}"
-    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
 }

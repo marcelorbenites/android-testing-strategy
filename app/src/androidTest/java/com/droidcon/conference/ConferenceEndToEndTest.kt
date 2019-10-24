@@ -21,7 +21,7 @@ class ConferenceEndToEndTest {
         ActivityTestRule(MainActivity::class.java, true, false)
 
     @Test
-    fun givenRegisteredConferenceWhenApplicationStartsStartShowConferenceName() {
+    fun givenRegisteredConferenceWhenApplicationStartsShowConferenceName() {
 
         rule.launchActivity(Intent())
 

@@ -33,10 +33,10 @@ class ConferenceComponentTest {
         val baseUrl = server.url("/").toString()
 
         val json = """
-            {
+            [{
               "id": "1",
               "name": "Droidcon"
-            }
+            }]
         """
 
         server.enqueue(MockResponse().setResponseCode(200).setBody(json))
