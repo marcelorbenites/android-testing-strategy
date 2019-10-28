@@ -19,6 +19,10 @@ class ConferenceFragment : Fragment() {
         dependencyManager!!.conferenceViewModel
     }
 
+    private val conferenceController by lazy {
+        dependencyManager!!.conferenceController
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         dependencyManager = (context as ViewContainer).dependencyManager
@@ -36,29 +40,30 @@ class ConferenceFragment : Fragment() {
         super.onResume()
         conferenceViewModel.setObserver {
             if (conferenceViewModel.hideName) {
-                hideConferenceName()
+                conferenceName.visibility = View.GONE
             } else {
-                showConferenceName(conferenceViewModel.name)
+                conferenceName.text = conferenceViewModel.name
+                conferenceName.visibility = View.VISIBLE
             }
+
+            errorText.visibility = if (conferenceViewModel.showError) View.VISIBLE else View.GONE
+            retryButton.visibility = if (conferenceViewModel.showRetry) View.VISIBLE else View.GONE
+            loadingProgressBar.visibility =
+                if (conferenceViewModel.showLoading) View.VISIBLE else View.GONE
+        }
+        retryButton.setOnClickListener {
+            conferenceController.loadConference()
         }
     }
 
     override fun onPause() {
         conferenceViewModel.removeObserver()
+        retryButton.setOnClickListener(null)
         super.onPause()
     }
 
     override fun onDetach() {
         dependencyManager = null
         super.onDetach()
-    }
-
-    private fun showConferenceName(name: String) {
-        conferenceName.text = name
-        conferenceName.visibility = View.VISIBLE
-    }
-
-    private fun hideConferenceName() {
-        conferenceName.visibility = View.GONE
     }
 }

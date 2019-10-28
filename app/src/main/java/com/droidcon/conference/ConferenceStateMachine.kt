@@ -9,13 +9,13 @@ class ConferenceStateMachine(
     private val conferenceGateway: ConferenceGateway,
     private val dispatcher: Dispatcher,
     errorFactory: ErrorFactory<GatewayError>
-) : StateMachine<Conference, GatewayError>(errorFactory) {
+) : StateMachine<Conference, GatewayError>(errorFactory), ConferenceController {
 
     override fun start() {
         loadConference()
     }
 
-    private fun loadConference() {
+    override fun loadConference() {
         dispatcher.dispatch({
             moveToLoading()
             moveToLoaded(conferenceGateway.getConference())

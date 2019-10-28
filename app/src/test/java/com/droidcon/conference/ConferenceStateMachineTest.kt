@@ -27,4 +27,23 @@ class ConferenceStateMachineTest {
             listenerMock.invoke(State(State.Name.LOADED, conference))
         }
     }
+
+    @Test
+    fun `Given a registered conference When load conference is called Then should emit loaded state with conference`() {
+        val conference = Conference("1", "Droidcon")
+        val stateMachine = ConferenceStateMachine(
+            FakeConferenceGateway(conference),
+            FakeDispatcher(),
+            FakeGatewayErrorFactory()
+        )
+
+        val listenerMock = mockk<(State<Conference, GatewayError>) -> Unit>(relaxed = true)
+        stateMachine.addStateChangedListener(listenerMock)
+        stateMachine.loadConference()
+
+        verifyOrder {
+            listenerMock.invoke(State(State.Name.LOADING))
+            listenerMock.invoke(State(State.Name.LOADED, conference))
+        }
+    }
 }

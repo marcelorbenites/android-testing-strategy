@@ -7,7 +7,7 @@ import org.junit.Test
 class StateMachineTest {
 
     @Test
-    fun `Given an idle state When move is called Then current state should return loading with no value And no error`() {
+    fun `Given an idle state When move to loading is called Then current state should return loading with no value And no error`() {
         val stateMachine = object : StateMachine<TestValue, TestError>(
             TestErrorFactory()
         ) {
@@ -25,7 +25,7 @@ class StateMachineTest {
     }
 
     @Test
-    fun `Given an idle state When move is called with value Then return loaded with value And no error`() {
+    fun `Given an idle state When move to loaded is called with value Then return loaded with value And no error`() {
         val stateMachine = object : StateMachine<TestValue, TestError>(
             TestErrorFactory()
         ) {
@@ -44,7 +44,7 @@ class StateMachineTest {
     }
 
     @Test
-    fun `Given an loaded state When move is called with error Then should return error state with error`() {
+    fun `Given an loaded state When move to error is called with error Then should return error state with error`() {
         val error = TestError()
         val stateMachine = object :
             StateMachine<TestValue, TestError>(

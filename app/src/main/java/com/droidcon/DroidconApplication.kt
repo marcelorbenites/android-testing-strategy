@@ -17,7 +17,11 @@ class DroidconApplication private constructor(
         conferenceViewModel
     }
 
-    private val conferenceStateMachine: StateMachine<Conference, GatewayError> by lazy {
+    override val conferenceController: ConferenceController by lazy {
+        conferenceStateMachine
+    }
+
+    private val conferenceStateMachine: ConferenceStateMachine by lazy {
         val machine = ConferenceStateMachine(
             lazyConferenceGateway.value,
             lazyDispatcherFactory.value.createSerialDispatcher("Conference"),

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Conference</string>
+    <string name="fragment_conference_error_text">Error loading conference</string>
+    <string name="fragment_conference_retry">Retry</string>
 </resources>
